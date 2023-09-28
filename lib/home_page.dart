@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:package_test/drag_and_drop/kanban_board_example.dart';
 import '_importer.dart';
 
 class HomePage extends StatefulWidget {
@@ -22,8 +23,10 @@ class _HomePageState extends State<HomePage> {
         ElevatedButton(onPressed: () => Get.to(() => PageViewPage()), child: Text('Page view > page view')),
         SizedBox(height: 10),
         ElevatedButton(onPressed: () => Get.to(() => PageViewPage2()), child: Text('Page view > page view2')),
+        // SizedBox(height: 10),
+        // ElevatedButton(onPressed: () => Get.to(() => PreloadPageViewDemo()), child: Text('Page view > preload page view')),
         SizedBox(height: 10),
-        ElevatedButton(onPressed: () => Get.to(() => PreloadPageViewDemo()), child: Text('Page view > preload page view')),
+        ElevatedButton(onPressed: () => Get.to(() => KanbanBoardExample()), child: Text('Drag and drop > Kanban board view')),
       ],
     );
   }
