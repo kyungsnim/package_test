@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:package_test/drag_and_drop/lib/custom/board.dart';
-import 'package:package_test/drag_and_drop/lib/models/inputs.dart';
-
-import 'lib/custom/board.dart';
-import 'lib/models/inputs.dart';
+import 'package:package_test/_importer.dart';
+import 'package:provider/provider.dart';
 
 class KanbanBoardExample extends StatefulWidget {
   const KanbanBoardExample({super.key});
@@ -13,30 +10,24 @@ class KanbanBoardExample extends StatefulWidget {
 }
 
 class _KanbanBoardExampleState extends State<KanbanBoardExample> {
+
+  @override
+  void initState() {
+    final curriculumState = Provider.of<CurriculumState>(context, listen: false);
+    curriculumState.init();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
+    final curriculumState = Provider.of<CurriculumState>(context);
+
     return KanbanBoard(
       [
         BoardListsData(
           title: '1111',
-            items: List.generate(
-              10,
-                  (index) => Container(
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(4),
-                    border: Border.all(
-                      color: Colors.grey.shade200,
-                    )),
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                    "Lorem ipsum dolor sit amet, sunt in culpa qui officia deserunt mollit anim id est laborum. $index",
-                    style: const TextStyle(
-                        fontSize: 16,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w500)),
-              ),
-            )),
+            items: curriculumState.dragAndDropList,
+          headerBackgroundColor: Colors.white,
+        ),
         BoardListsData(
           title: '2222',
           header: Container(child: Text('ssfdsdfasdfa')),
