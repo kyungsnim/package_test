@@ -18,7 +18,7 @@ class BoardList {
   TextEditingController nameController = TextEditingController();
   ScrollController scrollController;
 
-  String title;
+  String? title;
   BoardList(
       {required this.items,
       this.context,
@@ -49,7 +49,7 @@ class BoardList {
       ),
       this.y,
       required this.scrollController,
-      required this.title}) {
+      this.title}) {
     headerBackgroundColor = headerBackgroundColor ?? Colors.grey.shade300;
     footerBackgroundColor = footerBackgroundColor ?? Colors.grey.shade300;
   }

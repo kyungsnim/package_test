@@ -223,8 +223,9 @@ class _BoardListState extends ConsumerState<BoardList> {
           return b!;
         },
         child: Container(
-          padding: const EdgeInsets.only(left: 15, right: 15),
-          margin: const EdgeInsets.only(right: 30, top: 20, bottom: 15),
+          /// 보드 리스트 마진, 패딩
+          // padding: const EdgeInsets.only(left: 15, right: 15),
+          // margin: const EdgeInsets.only(right: 30, top: 20, bottom: 15),
           width: prov.board.lists[widget.index].width!,
           decoration: prov.board.listDecoration ??
               BoxDecoration(
@@ -260,13 +261,15 @@ class _BoardListState extends ConsumerState<BoardList> {
                         : null,
                   )
                 : Column(key: ValueKey("LIST ${widget.index}"), children: [
-                    GestureDetector(
-                      onLongPress: () {
-                        listProv.onListLongpress(
-                            listIndex: widget.index,
-                            context: context,
-                            setstate: () => setState(() {}));
-                      },
+              prov.board.lists[widget.index].title == null ? SizedBox() : GestureDetector(
+                      /// 칸반보드 내 보드 리스트는 클릭 이벤트 없애주기
+                      // onLongPress: () {
+                      //   listProv.onListLongpress(
+                      //       listIndex: widget.index,
+                      //       context: context,
+                      //       setstate: () => setState(() {}));
+                      // },
+                      /// 칸반보드 리스트 내 보드리스트 header
                       child: Container(
                         width: prov.board.lists[widget.index].width,
                         color: prov
@@ -279,7 +282,7 @@ class _BoardListState extends ConsumerState<BoardList> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              prov.board.lists[widget.index].title,
+                              prov.board.lists[widget.index].title!,
                               style: prov.board.textStyle ??
                                   const TextStyle(
                                       fontSize: 17,
@@ -329,6 +332,8 @@ class _BoardListState extends ConsumerState<BoardList> {
                         ),
                       ),
                     ),
+                    /// header ~ list body padding
+                    SizedBox(height: 10),
                     Expanded(
                       child: MediaQuery.removePadding(
                         context: context,
@@ -351,39 +356,6 @@ class _BoardListState extends ConsumerState<BoardList> {
                         ),
                       ),
                     ),
-                    Container(
-                      padding: const EdgeInsets.only(left: 15),
-                      height: 45,
-                      width: prov.board.lists[widget.index].width,
-                      color:
-                          prov.board.lists[widget.index].footerBackgroundColor,
-                      child: GestureDetector(
-                        onTap: () async {
-                          listProv.addNewCard(
-                              position: "LAST", listIndex: widget.index);
-                        },
-                        child: Row(
-                          children: [
-                            const Icon(
-                              Icons.add,
-                              color: Colors.black,
-                              size: 22,
-                            ),
-                            const SizedBox(
-                              width: 5,
-                            ),
-                            Text(
-                              'NEW',
-                              style: prov.board.textStyle ??
-                                  const TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 17,
-                                      fontWeight: FontWeight.w500),
-                            ),
-                          ],
-                        ),
-                      ),
-                    )
                   ]),
           ),
         ));

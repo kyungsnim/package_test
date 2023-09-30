@@ -64,7 +64,7 @@ class CurriculumState extends ChangeNotifier {
   Widget buildList(Subject subject) => Container(
     width: 448.w,
     height: 74.h,
-    margin: EdgeInsets.symmetric(horizontal: 32.w, vertical: 4.h),
+    // margin: EdgeInsets.symmetric(horizontal: 32.w, vertical: 4.h),
     padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 16.h),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(8),
@@ -98,35 +98,39 @@ class CurriculumState extends ChangeNotifier {
         SizedBox(width: 8.w),
 
         /// 주제, 학습 횟수
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              subject.title!,
-              style: TextStyle(
-                color: MidColors.textColor,
-                fontSize: 16.sp,
-                fontFamily: 'Pretendard',
-                fontWeight: FontWeight.w500,
-                height: 1.11,
-                letterSpacing: -0.20,
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Text(
+                  subject.title!,
+                  style: TextStyle(
+                    color: MidColors.textColor,
+                    fontSize: 16.sp,
+                    fontFamily: 'Pretendard',
+                    fontWeight: FontWeight.w500,
+                    height: 1.11,
+                    letterSpacing: -0.20,
+                    overflow: TextOverflow.fade,
+                  ),
+                ),
               ),
-            ),
-            SizedBox(height: 4.h),
-            Text(
-              '학습 횟수 : ${subject.count}',
-              style: TextStyle(
-                color: Color(0xFF707070),
-                fontSize: 12.sp,
-                fontFamily: 'Pretendard',
-                fontWeight: FontWeight.w400,
-                height: 1.10,
-                letterSpacing: 0.06,
+              SizedBox(height: 4.h),
+              Text(
+                '학습 횟수 : ${subject.count}',
+                style: TextStyle(
+                  color: const Color(0xFF707070),
+                  fontSize: 12.sp,
+                  fontFamily: 'Pretendard',
+                  fontWeight: FontWeight.w400,
+                  height: 1.10,
+                  letterSpacing: 0.06,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-        Spacer(),
 
         /// 진도율
         Container(

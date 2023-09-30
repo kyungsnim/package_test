@@ -103,19 +103,22 @@ class _ItemState extends ConsumerState<Item> {
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.grey.shade200),
                     borderRadius: BorderRadius.circular(4),
-                    color: prov.board.lists[widget.listIndex]
-                            .items[widget.itemIndex].backgroundColor ??
-                        Colors.white,
+                    color: Colors.blue,
+                    // color: prov.board.lists[widget.listIndex]
+                    //         .items[widget.itemIndex].backgroundColor ??
+                    //     Colors.white,
                   ),
                   width: prov.draggedItemState!.width,
                   height: prov.draggedItemState!.height,
+            child: prov.draggedItemState!.child,
                 )
               : cardProv.isCurrentElementDragged(
                       listIndex: widget.listIndex, itemIndex: widget.itemIndex)
                   ? Container(
-                    
+color: Colors.blue,
                       )
-                  : Container(
+                  : /// 리스트아이템 하위 빈칸 영역
+                    Container(
                       margin: const EdgeInsets.only(bottom: 10),
                       width: prov.board.lists[widget.listIndex]
                           .items[widget.itemIndex].width,

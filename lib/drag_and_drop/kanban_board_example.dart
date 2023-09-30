@@ -24,7 +24,7 @@ class _KanbanBoardExampleState extends State<KanbanBoardExample> {
     return KanbanBoard(
       [
         BoardListsData(
-          title: '1111',
+          // title: '1111',
             items: curriculumState.dragAndDropList,
           headerBackgroundColor: Colors.white,
         ),
@@ -60,9 +60,10 @@ class _KanbanBoardExampleState extends State<KanbanBoardExample> {
       onItemTap: (cardIndex, listIndex) {},
       onListTap: (listIndex) {},
       onListRename: (oldName, newName) {},
-      backgroundColor: Colors.yellow,
+      backgroundColor: Colors.white,
       displacementY: 124,
       displacementX: 100,
+      /// header text style
       textStyle: const TextStyle(
           fontSize: 50, color: Colors.black, fontWeight: FontWeight.w500),
     );

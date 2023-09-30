@@ -389,6 +389,7 @@ class ListItemProvider extends ChangeNotifier {
         y: location.dy);
     prov.draggedItemState!.setState = setsate;
     // log("${listIndex} ${itemIndex}");
+    debugPrint('Long press!!!');
     setsate();
   }
 
@@ -457,6 +458,7 @@ class ListItemProvider extends ChangeNotifier {
 
       // dev.log(
       // "PLACING AT =${prov.move == "DOWN" ? prov.board.dragItemIndex! - 1 < 0 ? prov.board.dragItemIndex! : prov.board.dragItemIndex! - 1 : prov.board.dragItemIndex!}");
+      debugPrint('DOWN!!!');
       boardProv.board.lists[boardProv.board.dragItemOfListIndex!].items.insert(
           boardProv.move == "DOWN"
               ? boardProv.board.dragItemIndex! - 1 < 0

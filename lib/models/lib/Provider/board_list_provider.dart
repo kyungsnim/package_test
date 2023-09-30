@@ -89,20 +89,22 @@ class BoardListProvider extends ChangeNotifier {
 
     prov.board.dragItemIndex = null;
     prov.board.dragItemOfListIndex = listIndex;
+
+    /// 보드 리스트 전체 드래그
     prov.draggedItemState = DraggedItemState(
         child: Container(
           width: box.size.width - 30,
           height: box.size.height - 30,
           color: prov.board.lists[listIndex].backgroundColor,
           child: Column(children: [
-            Container(
+            prov.board.lists[listIndex].title == null ? Container() : Container(
               margin: const EdgeInsets.only(
                 top: 20,
               ),
               padding: const EdgeInsets.only(left: 15, bottom: 10),
               alignment: Alignment.centerLeft,
               child: Text(
-                prov.board.lists[listIndex].title,
+                prov.board.lists[listIndex].title!,
                 style: const TextStyle(
                     fontSize: 20,
                     color: Colors.black,

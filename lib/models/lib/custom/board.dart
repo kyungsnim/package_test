@@ -10,7 +10,7 @@ import 'text_field.dart';
 class KanbanBoard extends StatefulWidget {
   const KanbanBoard(
     this.list, {
-    this.backgroundColor = Colors.yellow,
+    this.backgroundColor = Colors.white,
     this.cardPlaceHolderColor,
     this.boardScrollConfig,
     this.listScrollConfig,
@@ -217,7 +217,7 @@ class _BoardState extends ConsumerState<Board> {
             element.width = element.context!.size!.width - 30;
             element.y = of.dy - widget.displacementY + 24;
           }
-          boardListProv.moveListLeft();
+          // boardListProv.moveListLeft();
         } else if (boardProv.scrollingRight && boardProv.board.isListDragged) {
           for (var element in boardProv.board.lists) {
             if (element.context == null) break;
@@ -288,50 +288,46 @@ class _BoardState extends ConsumerState<Board> {
           body: Container(
             decoration: widget.boardDecoration ??
                 BoxDecoration(color: widget.backgroundColor),
+            /// 최상단 마진
             margin: const EdgeInsets.only(top: 24),
             child: Stack(
               fit: StackFit.passthrough,
               clipBehavior: Clip.none,
               children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        margin: const EdgeInsets.only(left: 20),
-                        //width: 200,
-                        // height: 1200,
-                        child: ScrollConfiguration(
-                          behavior: ScrollConfiguration.of(context).copyWith(
-                            dragDevices: {
-                              PointerDeviceKind.mouse,
-                              PointerDeviceKind.touch,
-                            },
-                          ),
-                          child: SingleChildScrollView(
-                            controller: boardProv.board.controller,
-                            scrollDirection: Axis.horizontal,
-                            child: Transform(
-                              alignment: Alignment.topLeft,
-                              // scaleX: 0.45,
-                              transform: Matrix4(1, 0, 0, 0, 0, 1, 0, 0, 0, 0,
-                                  1, 0, 0, 0, 0, 1),
-                              child: Row(
-                                  children: boardProv.board.lists
-                                      .map(
-                                          (e) =>
-                                              BoardList(
-                                                      index: boardProv
-                                                          .board.lists
-                                                          .indexOf(e),
-                                                    )
-                                  )
-                                      .toList()),
-                            ),
-                          ),
-                        ),
+                Container(
+                  /// 최좌측 마진
+                  margin: const EdgeInsets.only(left: 20),
+                  //width: 200,
+                  // height: 1200,
+                  child: ScrollConfiguration(
+                    behavior: ScrollConfiguration.of(context).copyWith(
+                      dragDevices: {
+                        PointerDeviceKind.mouse,
+                        PointerDeviceKind.touch,
+                      },
+                    ),
+                    child: SingleChildScrollView(
+                      controller: boardProv.board.controller,
+                      scrollDirection: Axis.horizontal,
+                      child: Transform(
+                        alignment: Alignment.topLeft,
+                        // scaleX: 0.45,
+                        transform: Matrix4(1, 0, 0, 0, 0, 1, 0, 0, 0, 0,
+                            1, 0, 0, 0, 0, 1),
+                        child: Row(
+                            children: boardProv.board.lists
+                                .map(
+                                    (e) =>
+                                        BoardList(
+                                                index: boardProv
+                                                    .board.lists
+                                                    .indexOf(e),
+                                              )
+                            )
+                                .toList()),
                       ),
                     ),
-                  ],
+                  ),
                 ),
                 /// 드래그로 이동하는 동안 보일 위젯
                 ValueListenableBuilder(

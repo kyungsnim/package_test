@@ -109,7 +109,7 @@ class BoardProvider extends ChangeNotifier {
           items: listItems,
           width: data[i].width,
           scrollController: ScrollController(),
-          title: data[i].title ?? 'LIST2112 ${i + 1}'));
+          title: data[i].title));
     }
   }
 
