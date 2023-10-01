@@ -10,13 +10,14 @@ class KanbanBoardExample extends StatefulWidget {
 }
 
 class _KanbanBoardExampleState extends State<KanbanBoardExample> {
-
   @override
   void initState() {
-    final curriculumState = Provider.of<CurriculumState>(context, listen: false);
+    final curriculumState =
+        Provider.of<CurriculumState>(context, listen: false);
     curriculumState.init();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     final curriculumState = Provider.of<CurriculumState>(context);
@@ -25,36 +26,38 @@ class _KanbanBoardExampleState extends State<KanbanBoardExample> {
       [
         BoardListsData(
           // title: '1111',
-            items: curriculumState.dragAndDropList,
+          items: curriculumState.dragAndDropList,
           headerBackgroundColor: Colors.white,
+          isPossibleReorder: false,
         ),
         BoardListsData(
           title: '2222',
           header: Container(child: Text('ssfdsdfasdfa')),
-            items: List.generate(
-              3,
-                  (index) => Container(
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(4),
-                    border: Border.all(
-                      color: Colors.grey.shade200,
-                    )),
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                    "Lorem ipsum dolor sit amet, sunt in culpa qui officia deserunt mollit anim id est laborum. $index",
-                    style: const TextStyle(
-                        fontSize: 16,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w500)),
-              ),
-            ))
+          items: List.generate(
+            3,
+            (index) => Container(
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(4),
+                  border: Border.all(
+                    color: Colors.grey.shade200,
+                  )),
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                  "Lorem ipsum dolor sit amet, sunt in culpa qui officia deserunt mollit anim id est laborum. $index",
+                  style: const TextStyle(
+                      fontSize: 16,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w500)),
+            ),
+          ),
+          isPossibleReorder: true,
+        ),
       ],
       onItemLongPress: (cardIndex, listIndex) {},
-      onItemReorder:
-          (oldCardIndex, newCardIndex, oldListIndex, newListIndex) {
+      onItemReorder: (oldCardIndex, newCardIndex, oldListIndex, newListIndex) {
         print('item reorder');
-          },
+      },
       onListLongPress: (listIndex) {},
       onListReorder: (oldListIndex, newListIndex) {},
       onItemTap: (cardIndex, listIndex) {},
@@ -63,6 +66,7 @@ class _KanbanBoardExampleState extends State<KanbanBoardExample> {
       backgroundColor: Colors.white,
       displacementY: 124,
       displacementX: 100,
+
       /// header text style
       textStyle: const TextStyle(
           fontSize: 50, color: Colors.black, fontWeight: FontWeight.w500),

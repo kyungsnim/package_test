@@ -6,8 +6,11 @@ import '../models/item_state.dart';
 import 'list_item.dart';
 
 class BoardList extends ConsumerStatefulWidget {
-  const BoardList({super.key, required this.index});
+  const BoardList({super.key, required this.index,
+  required this.isPossibleReorder,});
+
   final int index;
+  final bool isPossibleReorder;
 
   @override
   ConsumerState<BoardList> createState() => _BoardListState();
@@ -58,7 +61,6 @@ class _BoardListState extends ConsumerState<BoardList> {
               // print(prov.board.lists[widget.index].items.length);
               // CASE: WHEN ELEMENT IS DRAGGED RIGHT SIDE AND LIST HAVE NO ELEMENT IN IT //
               if (prov.board.lists[widget.index].items.isEmpty) {
-
                 log("LIST 0 RIGHT");
                 prov.move = "REPLACE";
                 prov.board.lists[widget.index].items.add(ListItem(
@@ -72,8 +74,8 @@ class _BoardListState extends ConsumerState<BoardList> {
                       width: prov.draggedItemState!.width,
                       height: prov.draggedItemState!.height,
                     ),
-                    prevChild:
-                        Container(), // WE HAVE ADDED THIS IN EMPTY LIST JUST TO SHOW PLACEHOLDER, so it should be hiddent
+                    prevChild: Container(),
+                    // WE HAVE ADDED THIS IN EMPTY LIST JUST TO SHOW PLACEHOLDER, so it should be hiddent
                     listIndex: widget.index,
                     index: 0,
                     addedBySystem: true));
@@ -85,13 +87,14 @@ class _BoardListState extends ConsumerState<BoardList> {
                           .items[prov.board.dragItemIndex!].prevChild;
                   prov.board.lists[prov.board.dragItemOfListIndex!]
                       .items[prov.board.dragItemIndex!].setState!();
-                          if (prov.board.lists[prov.board.dragItemOfListIndex!]
+                  if (prov.board.lists[prov.board.dragItemOfListIndex!]
                           .items[prov.board.dragItemIndex!].addedBySystem ==
                       true) {
                     prov.board.lists[prov.board.dragItemOfListIndex!].items
                         .removeAt(0);
                     log("ITEM REMOVED");
-                    prov.board.lists[prov.board.dragItemOfListIndex!].setState!();
+                    prov.board.lists[prov.board.dragItemOfListIndex!]
+                        .setState!();
                   }
                   prov.board.dragItemIndex = 0;
                   prov.board.dragItemOfListIndex = widget.index;
@@ -144,7 +147,7 @@ class _BoardListState extends ConsumerState<BoardList> {
               if (prov.board.lists[widget.index].items.isEmpty) {
                 prov.move = "REPLACE";
                 //  print("LIST 0 LEFT");
-  
+
                 prov.board.lists[widget.index].items.add(ListItem(
                     child: Container(
                       decoration: BoxDecoration(
@@ -156,8 +159,8 @@ class _BoardListState extends ConsumerState<BoardList> {
                       width: prov.draggedItemState!.width,
                       height: prov.draggedItemState!.height,
                     ),
-                    prevChild:
-                        Container(), // WE HAVE ADDED THIS IN EMPTY LIST JUST TO SHOW PLACEHOLDER, so it should be hiddent
+                    prevChild: Container(),
+                    // WE HAVE ADDED THIS IN EMPTY LIST JUST TO SHOW PLACEHOLDER, so it should be hiddent
                     listIndex: widget.index,
                     index: 0,
                     addedBySystem: true));
@@ -176,7 +179,8 @@ class _BoardListState extends ConsumerState<BoardList> {
                     prov.board.lists[prov.board.dragItemOfListIndex!].items
                         .removeAt(0);
                     log("ITEM REMOVED");
-                    prov.board.lists[prov.board.dragItemOfListIndex!].setState!();
+                    prov.board.lists[prov.board.dragItemOfListIndex!]
+                        .setState!();
                   }
                   prov.board.dragItemIndex = 0;
                   prov.board.dragItemOfListIndex = widget.index;
@@ -261,100 +265,135 @@ class _BoardListState extends ConsumerState<BoardList> {
                         : null,
                   )
                 : Column(key: ValueKey("LIST ${widget.index}"), children: [
-              prov.board.lists[widget.index].title == null ? SizedBox() : GestureDetector(
-                      /// 칸반보드 내 보드 리스트는 클릭 이벤트 없애주기
-                      // onLongPress: () {
-                      //   listProv.onListLongpress(
-                      //       listIndex: widget.index,
-                      //       context: context,
-                      //       setstate: () => setState(() {}));
-                      // },
-                      /// 칸반보드 리스트 내 보드리스트 header
-                      child: Container(
-                        width: prov.board.lists[widget.index].width,
-                        color: prov
-                            .board.lists[widget.index].headerBackgroundColor,
-                        margin: const EdgeInsets.only(bottom: 0),
-                        padding: const EdgeInsets.only(
-                            left: 15, bottom: 10, top: 10, right: 0),
-                        alignment: Alignment.centerLeft,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              prov.board.lists[widget.index].title!,
-                              style: prov.board.textStyle ??
-                                  const TextStyle(
-                                      fontSize: 17,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w500),
+                    prov.board.lists[widget.index].title == null
+                        ? SizedBox()
+                        : GestureDetector(
+                            /// 칸반보드 내 보드 리스트는 클릭 이벤트 없애주기
+                            // onLongPress: () {
+                            //   listProv.onListLongpress(
+                            //       listIndex: widget.index,
+                            //       context: context,
+                            //       setstate: () => setState(() {}));
+                            // },
+                            /// 칸반보드 리스트 내 보드리스트 header
+                            child: Container(
+                              width: prov.board.lists[widget.index].width,
+                              color: prov.board.lists[widget.index]
+                                  .headerBackgroundColor,
+                              margin: const EdgeInsets.only(bottom: 0),
+                              padding: const EdgeInsets.only(
+                                  left: 15, bottom: 10, top: 10, right: 0),
+                              alignment: Alignment.centerLeft,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    prov.board.lists[widget.index].title!,
+                                    style: prov.board.textStyle ??
+                                        const TextStyle(
+                                            fontSize: 17,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w500),
+                                  ),
+                                  SizedBox(
+                                      // padding: const EdgeInsets.all(5),
+                                      child: PopupMenuButton(
+                                          constraints: BoxConstraints(
+                                            minWidth: prov
+                                                    .board
+                                                    .lists[widget.index]
+                                                    .width! *
+                                                0.7,
+                                            maxWidth: prov
+                                                    .board
+                                                    .lists[widget.index]
+                                                    .width! *
+                                                0.7,
+                                          ),
+                                          itemBuilder: (ctx) {
+                                            return [
+                                              PopupMenuItem(
+                                                value: 1,
+                                                child: Text(
+                                                  "Add card",
+                                                  style: prov.board.textStyle,
+                                                ),
+                                              ),
+                                              PopupMenuItem(
+                                                value: 2,
+                                                child: Text(
+                                                  "Delete List",
+                                                  style: prov.board.textStyle,
+                                                ),
+                                              ),
+                                            ];
+                                          },
+                                          onSelected: (value) async {
+                                            if (value == 1) {
+                                              listProv.addNewCard(
+                                                  position: "TOP",
+                                                  listIndex: widget.index);
+                                            } else if (value == 2) {
+                                              prov.board.lists
+                                                  .removeAt(widget.index);
+                                              prov.board.setstate!();
+                                            }
+                                          })),
+                                ],
+                              ),
                             ),
-                            SizedBox(
-                                // padding: const EdgeInsets.all(5),
-                                child: PopupMenuButton(
-                                    constraints: BoxConstraints(
-                                      minWidth: prov.board.lists[widget.index]
-                                              .width! *
-                                          0.7,
-                                      maxWidth: prov.board.lists[widget.index]
-                                              .width! *
-                                          0.7,
-                                    ),
-                                    itemBuilder: (ctx) {
-                                      return [
-                                        PopupMenuItem(
-                                          value: 1,
-                                          child: Text(
-                                            "Add card",
-                                            style: prov.board.textStyle,
-                                          ),
-                                        ),
-                                        PopupMenuItem(
-                                          value: 2,
-                                          child: Text(
-                                            "Delete List",
-                                            style: prov.board.textStyle,
-                                          ),
-                                        ),
-                                      ];
-                                    },
-                                    onSelected: (value) async {
-                                      if (value == 1) {
-                                        listProv.addNewCard(
-                                            position: "TOP",
-                                            listIndex: widget.index);
-                                      } else if (value == 2) {
-                                        prov.board.lists.removeAt(widget.index);
-                                        prov.board.setstate!();
-                                      }
-                                    })),
-                          ],
-                        ),
-                      ),
-                    ),
+                          ),
+
                     /// header ~ list body padding
                     SizedBox(height: 10),
                     Expanded(
                       child: MediaQuery.removePadding(
-                        context: context,
-                        removeTop: true,
-                        child: ListView.builder(
-                          physics: const ClampingScrollPhysics(),
-                          controller:
-                              prov.board.lists[widget.index].scrollController,
-                          itemCount:
-                              prov.board.lists[widget.index].items.length,
-                          shrinkWrap: true,
-                          itemBuilder: (ctx, index) {
-                            return Item(
-                              itemIndex: index,
-                              listIndex: widget.index,
-                            );
-                          },
+                          context: context,
+                          removeTop: true,
+                          child: Stack(
+                            alignment: Alignment.topCenter,
+                            children: [
+                              ListView.builder(
+                                physics: const ClampingScrollPhysics(),
+                                controller: prov
+                                    .board.lists[widget.index].scrollController,
+                                itemCount:
+                                    prov.board.lists[widget.index].items.length,
+                                shrinkWrap: true,
+                                itemBuilder: (ctx, index) {
+                                  return Item(
+                                    itemIndex: index,
+                                    listIndex: widget.index,
+                                      isPossibleReorder: widget.isPossibleReorder
+                                  );
+                                },
 
-                          // itemCount: prov.items.length,
-                        ),
-                      ),
+                                // itemCount: prov.items.length,
+                              ),
+                              prov
+                                  .board.lists[widget.index].scrollController.hasClients &&
+                                  prov
+                                      .board.lists[widget.index].scrollController.offset > 1000 ? Positioned(
+                                bottom: 50,
+                                child: GestureDetector(
+                                  onTap: () => prov.board.lists[widget.index].scrollController.animateTo(0, duration: Duration(milliseconds: 400), curve: Curves.ease),
+                                  child: Container(
+                                    width: 50,
+                                    height: 50,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(50),
+                                      color: Colors.purple,
+                                    ),
+                                    child: const Icon(
+                                      Icons.keyboard_arrow_up,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ) : SizedBox(),
+                            ],
+                          )),
                     ),
                   ]),
           ),

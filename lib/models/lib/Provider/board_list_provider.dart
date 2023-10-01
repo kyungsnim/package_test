@@ -67,10 +67,10 @@ class BoardListProvider extends ChangeNotifier {
     prov.board.lists[listIndex].setState!();
   }
 
-  void onListLongpress(
+  void onListLongPress(
       {required int listIndex,
       required BuildContext context,
-      required VoidCallback setstate}) {
+      required VoidCallback setState}) {
     var prov = ref.read(ProviderList.boardProvider);
     for (var element in prov.board.lists) {
       if (element.context == null) break;
@@ -127,6 +127,7 @@ class BoardListProvider extends ChangeNotifier {
                           Colors.grey.shade200,
                       itemIndex: index,
                       listIndex: listIndex,
+                        isPossibleReorder: false,
                     );
                   },
 
@@ -142,11 +143,11 @@ class BoardListProvider extends ChangeNotifier {
         width: box.size.width - 30,
         x: location.dx - prov.board.displacementX!,
         y: location.dy - prov.board.displacementY!);
-    prov.draggedItemState!.setState = () => setstate;
+    prov.draggedItemState!.setState = () => setState;
     prov.board.dragItemIndex = null;
     prov.board.isListDragged = true;
     prov.board.dragItemOfListIndex = listIndex;
-    setstate();
+    setState();
   }
 
   Future scrollToMax(ScrollController controller) async {

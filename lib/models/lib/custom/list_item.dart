@@ -8,10 +8,12 @@ class Item extends ConsumerStatefulWidget {
     required this.itemIndex,
     this.color = Colors.pink,
     required this.listIndex,
+    required this.isPossibleReorder,
   });
   final int itemIndex;
   final int listIndex;
   final Color color;
+  final bool isPossibleReorder;
   @override
   ConsumerState<Item> createState() => _ItemState();
 }
@@ -31,7 +33,7 @@ class _ItemState extends ConsumerState<Item> {
           listIndex: widget.listIndex,
           itemIndex: widget.itemIndex,
           context: context,
-          setsate: () => {setState(() {})});
+          setState: () => {setState(() {})});
     });
     return ValueListenableBuilder(
         valueListenable: prov.valueNotifier,
@@ -75,12 +77,18 @@ class _ItemState extends ConsumerState<Item> {
             if (cardProv.getYAxisCondition(
                 listIndex: widget.listIndex, itemIndex: widget.itemIndex)) {
             // log("Y AXIS CONDITION");
-              cardProv.checkForYAxisMovement(
-                  listIndex: widget.listIndex, itemIndex: widget.itemIndex);
+              /// 좌측 리스트에는 reorder 불가능하게 설정
+              if (prov.board.lists[widget.listIndex].isPossibleReorder ?? false) {
+                cardProv.checkForYAxisMovement(
+                    listIndex: widget.listIndex, itemIndex: widget.itemIndex);
+              }
             } else if (cardProv.getXAxisCondition(
                 listIndex: widget.listIndex, itemIndex: widget.itemIndex)) {
-              cardProv.checkForXAxisMovement(
-                  listIndex: widget.listIndex, itemIndex: widget.itemIndex);
+              /// 우측 리스트에는 좌측으로 못넘기게 설정
+              if (prov.board.lists[widget.listIndex].isPossibleReorder ?? false) {
+                cardProv.checkForXAxisMovement(
+                    listIndex: widget.listIndex, itemIndex: widget.itemIndex);
+              }
             }
           }
           return b!;
@@ -91,19 +99,21 @@ class _ItemState extends ConsumerState<Item> {
                 listIndex: widget.listIndex,
                 itemIndex: widget.itemIndex,
                 context: context,
-                setsate: () => {setState(() {})});
+                setState: () => {setState(() {})});
           },
           child: prov.board.isElementDragged &&
                   prov.board.dragItemIndex == widget.itemIndex &&
                   prov.draggedItemState!.itemIndex == widget.itemIndex &&
                   prov.draggedItemState!.listIndex == widget.listIndex &&
                   prov.board.dragItemOfListIndex! == widget.listIndex
-              ? Container(
+              ?
+              /// 드래그하는 아이템이 현재 index에 위치했을 때 보여질 위젯
+          Container(
                   margin: const EdgeInsets.only(bottom: 10),
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.grey.shade200),
-                    borderRadius: BorderRadius.circular(4),
-                    color: Colors.blue,
+                    borderRadius: BorderRadius.circular(30),
+                    color: Colors.green,
                     // color: prov.board.lists[widget.listIndex]
                     //         .items[widget.itemIndex].backgroundColor ??
                     //     Colors.white,

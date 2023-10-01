@@ -17,39 +17,43 @@ class BoardList {
   List<ListItem> items = [];
   TextEditingController nameController = TextEditingController();
   ScrollController scrollController;
+  bool? isPossibleReorder;
 
   String? title;
-  BoardList(
-      {required this.items,
-      this.context,
-      this.height,
-      this.width,
-      this.header,
-      this.footer,
-      this.setState,
-      this.headerBackgroundColor = const Color.fromARGB(
-        255,
-        247,
-        248,
-        252,
-      ),
-      this.footerBackgroundColor = const Color.fromARGB(
-        255,
-        247,
-        248,
-        252,
-      ),
-      this.x,
-      this.child,
-      this.backgroundColor = const Color.fromARGB(
-        255,
-        247,
-        248,
-        252,
-      ),
-      this.y,
-      required this.scrollController,
-      this.title}) {
+
+  BoardList({
+    required this.items,
+    this.context,
+    this.height,
+    this.width,
+    this.header,
+    this.footer,
+    this.setState,
+    this.headerBackgroundColor = const Color.fromARGB(
+      255,
+      247,
+      248,
+      252,
+    ),
+    this.footerBackgroundColor = const Color.fromARGB(
+      255,
+      247,
+      248,
+      252,
+    ),
+    this.x,
+    this.child,
+    this.backgroundColor = const Color.fromARGB(
+      255,
+      247,
+      248,
+      252,
+    ),
+    this.y,
+    required this.scrollController,
+    this.title,
+    this.isPossibleReorder,
+  }) {
     headerBackgroundColor = headerBackgroundColor ?? Colors.grey.shade300;
     footerBackgroundColor = footerBackgroundColor ?? Colors.grey.shade300;
   }

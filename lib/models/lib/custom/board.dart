@@ -32,6 +32,7 @@ class KanbanBoard extends StatefulWidget {
     this.onItemLongPress,
     this.onListTap,
     this.onListLongPress,
+        this.isPossibleReorder,
     super.key,
   });
   final List<BoardListsData> list;
@@ -61,6 +62,7 @@ class KanbanBoard extends StatefulWidget {
   final double displacementY;
   final Duration cardTransitionDuration;
   final Duration listTransitionDuration;
+  final bool? isPossibleReorder;
 
   @override
   State<KanbanBoard> createState() => _KanbanBoardState();
@@ -94,7 +96,9 @@ class _KanbanBoardState extends State<KanbanBoard> {
           cardTransitionBuilder: widget.cardTransitionBuilder,
           listTransitionBuilder: widget.listTransitionBuilder,
           cardTransitionDuration: widget.cardTransitionDuration,
-          listTransitionDuration: widget.listTransitionDuration),
+          listTransitionDuration: widget.listTransitionDuration,
+          isPossibleReorder: widget.isPossibleReorder,
+      ),
     ));
   }
 }
@@ -124,6 +128,7 @@ class Board extends ConsumerStatefulWidget {
     this.onItemLongPress,
     this.onListTap,
     this.onListLongPress,
+        this.isPossibleReorder,
     super.key,
   });
   final List<BoardListsData> list;
@@ -153,12 +158,16 @@ class Board extends ConsumerStatefulWidget {
   final double displacementY;
   final Duration cardTransitionDuration;
   final Duration listTransitionDuration;
+  final bool? isPossibleReorder;
 
   @override
   ConsumerState<Board> createState() => _BoardState();
 }
 
 class _BoardState extends ConsumerState<Board> {
+
+  bool _isScrollButtonShow = false;
+
   @override
   void initState() {
     var boardProv = ref.read(ProviderList.boardProvider);
@@ -201,6 +210,16 @@ class _BoardState extends ConsumerState<Board> {
                 boardProv.valueNotifier.value.dx,
                 boardProv.valueNotifier.value.dy + 0.00001);
           }
+        }
+        /// 기준선 이하로 스크롤 내렸을 때 스크롤 버튼 보이게 처리
+        if (!_isScrollButtonShow && element.scrollController.offset > 1000) {
+          setState(() {
+            _isScrollButtonShow = !_isScrollButtonShow;
+          });
+        } else if (_isScrollButtonShow && element.scrollController.offset < 1000) {
+          setState(() {
+            _isScrollButtonShow = !_isScrollButtonShow;
+          });
         }
       });
     }
@@ -322,6 +341,7 @@ class _BoardState extends ConsumerState<Board> {
                                                 index: boardProv
                                                     .board.lists
                                                     .indexOf(e),
+                                            isPossibleReorder: widget.isPossibleReorder ?? false,
                                               )
                             )
                                 .toList()),

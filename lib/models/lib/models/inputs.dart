@@ -10,6 +10,8 @@ class BoardListsData {
   final List<Widget> items;
   Color? backgroundColor;
   double width;
+  final bool isPossibleReorder;
+
   BoardListsData({
     this.title,
     this.header,
@@ -19,6 +21,7 @@ class BoardListsData {
     this.headerBackgroundColor = Colors.green,
     this.backgroundColor = Colors.purple,
     this.width = 500,
+    required this.isPossibleReorder,
   }) {
     // footer = footer ??
     //     Container(

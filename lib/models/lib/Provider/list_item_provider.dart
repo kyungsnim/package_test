@@ -12,13 +12,13 @@ class ListItemProvider extends ChangeNotifier {
       {required int listIndex,
       required int itemIndex,
       required BuildContext context,
-      required VoidCallback setsate}) {
+      required VoidCallback setState}) {
     var prov = ref.read(ProviderList.boardProvider);
     if (!context.mounted) return;
     prov.board.lists[listIndex].items[itemIndex].context = context;
     var box = context.findRenderObject() as RenderBox;
     var location = box.localToGlobal(Offset.zero);
-    prov.board.lists[listIndex].items[itemIndex].setState = setsate;
+    prov.board.lists[listIndex].items[itemIndex].setState = setState;
     prov.board.lists[listIndex].items[itemIndex].x =
         location.dx - prov.board.displacementX!;
     prov.board.lists[listIndex].items[itemIndex].y =
@@ -79,19 +79,37 @@ class ListItemProvider extends ChangeNotifier {
     item.containsPlaceholder = true;
     item.child = Column(
       children: [
+        /// 아이템 드래그로 이동할 때 보일 위젯
         !item.bottomPlaceholder!
-            ? Container(
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey.shade200),
-                  borderRadius: BorderRadius.circular(4),
-                  color: item.backgroundColor ?? Colors.white,
+            ? Stack(
+              children: [
+                Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey.shade200),
+                      borderRadius: BorderRadius.circular(4),
+                      color: item.backgroundColor ?? Colors.white,
+                    ),
+                    margin: const EdgeInsets.only(
+                      bottom: 10,
+                    ),
+                    width: prov.draggedItemState!.width,
+                    height: prov.draggedItemState!.height,
+          child: prov.draggedItemState!.child,
+                  ),
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.redAccent, width: 3),
+                    borderRadius: BorderRadius.circular(4),
+                    color: Colors.white.withOpacity(0.6),
+                  ),
+                  margin: const EdgeInsets.only(
+                    bottom: 10,
+                  ),
+                  width: prov.draggedItemState!.width,
+                  height: prov.draggedItemState!.height,
                 ),
-                margin: const EdgeInsets.only(
-                  bottom: 10,
-                ),
-                width: prov.draggedItemState!.width,
-                height: prov.draggedItemState!.height,
-              )
+              ],
+            )
             : Container(),
         Container(
           decoration: BoxDecoration(
@@ -101,12 +119,12 @@ class ListItemProvider extends ChangeNotifier {
           width: item.actualSize!.width,
           child: item.prevChild,
         ),
+        /// 바닥 아이템으로 이동하는 경우
         item.bottomPlaceholder!
             ? Container(
                 decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey.shade200),
+                  border: Border.all(color: Colors.redAccent, width: 3),
                   borderRadius: BorderRadius.circular(4),
-                  color: item.backgroundColor ?? Colors.white,
                 ),
                 margin: EdgeInsets.only(
                     bottom: 10,
@@ -116,6 +134,7 @@ class ListItemProvider extends ChangeNotifier {
                         : 0),
                 width: prov.draggedItemState!.width,
                 height: prov.draggedItemState!.height,
+          child: prov.draggedItemState!.child,
               )
             : Container(),
       ],
@@ -360,7 +379,7 @@ class ListItemProvider extends ChangeNotifier {
       {required int listIndex,
       required int itemIndex,
       required BuildContext context,
-      required VoidCallback setsate}) {
+      required VoidCallback setState}) {
     var prov = ref.read(ProviderList.boardProvider);
     var box = context.findRenderObject() as RenderBox;
     var location = box.localToGlobal(Offset.zero);
@@ -387,10 +406,10 @@ class ListItemProvider extends ChangeNotifier {
         width: box.size.width,
         x: location.dx,
         y: location.dy);
-    prov.draggedItemState!.setState = setsate;
+    prov.draggedItemState!.setState = setState;
     // log("${listIndex} ${itemIndex}");
     debugPrint('Long press!!!');
-    setsate();
+    setState();
   }
 
   bool isCurrentElementDragged(
