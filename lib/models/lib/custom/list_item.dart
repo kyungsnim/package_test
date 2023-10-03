@@ -95,7 +95,7 @@ class _ItemState extends ConsumerState<Item> {
         },
         child: GestureDetector(
           onLongPress: () {
-            cardProv.onLongpressCard(
+            cardProv.onLongPressCard(
                 listIndex: widget.listIndex,
                 itemIndex: widget.itemIndex,
                 context: context,

@@ -375,7 +375,7 @@ class ListItemProvider extends ChangeNotifier {
     }
   }
 
-  void onLongpressCard(
+  void onLongPressCard(
       {required int listIndex,
       required int itemIndex,
       required BuildContext context,
@@ -458,13 +458,17 @@ class ListItemProvider extends ChangeNotifier {
         boardProv.board.lists[boardProv.board.dragItemOfListIndex!]
             .items[boardProv.board.dragItemIndex!].prevChild;
 
+    debugPrint('boardProv.draggedItemState!.listIndex!: ${boardProv.draggedItemState!.listIndex!}');
+    debugPrint('boardProv.board.dragItemOfListIndex!; ${boardProv.board.dragItemOfListIndex!}');
     // dev.log("MOVE=${prov.move}");
     if (boardProv.move == 'LAST') {
       //   dev.log("LAST");
+      debugPrint('LAST!!!');
       boardProv.board.lists[boardProv.board.dragItemOfListIndex!].items.add(
           boardProv.board.lists[boardProv.draggedItemState!.listIndex!].items
               .removeAt(boardProv.draggedItemState!.itemIndex!));
     } else if (boardProv.move == "REPLACE") {
+      debugPrint('REPLACE!!!');
       boardProv.board.lists[boardProv.board.dragItemOfListIndex!].items.clear();
       boardProv.board.lists[boardProv.board.dragItemOfListIndex!].items.add(
           boardProv.board.lists[boardProv.draggedItemState!.listIndex!].items
@@ -477,15 +481,38 @@ class ListItemProvider extends ChangeNotifier {
 
       // dev.log(
       // "PLACING AT =${prov.move == "DOWN" ? prov.board.dragItemIndex! - 1 < 0 ? prov.board.dragItemIndex! : prov.board.dragItemIndex! - 1 : prov.board.dragItemIndex!}");
-      debugPrint('DOWN!!!');
-      boardProv.board.lists[boardProv.board.dragItemOfListIndex!].items.insert(
-          boardProv.move == "DOWN"
-              ? boardProv.board.dragItemIndex! - 1 < 0
-                  ? boardProv.board.dragItemIndex!
-                  : boardProv.board.dragItemIndex! - 1
-              : boardProv.board.dragItemIndex!,
-          boardProv.board.lists[boardProv.draggedItemState!.listIndex!].items
-              .removeAt(boardProv.draggedItemState!.itemIndex!));
+      debugPrint('MOVE!!!');
+
+      /// 왼쪽에서 오른쪽으로 이동하는 경우
+      debugPrint('boardProv.draggedItemState!.listIndex!: ${boardProv.draggedItemState!.listIndex!}');
+      debugPrint('boardProv.board.dragItemOfListIndex!; ${boardProv.board.dragItemOfListIndex!}');
+      if (boardProv.draggedItemState!.listIndex! == 0 && boardProv.board.dragItemOfListIndex! == 1) {
+        boardProv.board.lists[boardProv.board.dragItemOfListIndex!].items.insert(
+            boardProv.move == "DOWN"
+                ? boardProv.board.dragItemIndex! - 1 < 0
+                ? boardProv.board.dragItemIndex!
+                : boardProv.board.dragItemIndex! - 1
+                : boardProv.board.dragItemIndex!,
+            boardProv.board.lists[boardProv.draggedItemState!.listIndex!].items
+                .elementAt(boardProv.draggedItemState!.itemIndex!));
+      } else {
+        boardProv.board.lists[boardProv.board.dragItemOfListIndex!].items.insert(
+            boardProv.move == "DOWN"
+                ? boardProv.board.dragItemIndex! - 1 < 0
+                ? boardProv.board.dragItemIndex!
+                : boardProv.board.dragItemIndex! - 1
+                : boardProv.board.dragItemIndex!,
+            boardProv.board.lists[boardProv.draggedItemState!.listIndex!].items
+                .removeAt(boardProv.draggedItemState!.itemIndex!));
+      }
+      // boardProv.board.lists[boardProv.board.dragItemOfListIndex!].items.insert(
+      //     boardProv.move == "DOWN"
+      //         ? boardProv.board.dragItemIndex! - 1 < 0
+      //             ? boardProv.board.dragItemIndex!
+      //             : boardProv.board.dragItemIndex! - 1
+      //         : boardProv.board.dragItemIndex!,
+      //     boardProv.board.lists[boardProv.draggedItemState!.listIndex!].items
+      //         .removeAt(boardProv.draggedItemState!.itemIndex!));
       // dev.log(
       // "LENGTH= ${prov.board.lists[prov.board.dragItemOfListIndex!].items.length}");
     }
