@@ -6,8 +6,11 @@ import '../models/item_state.dart';
 import 'list_item.dart';
 
 class BoardList extends ConsumerStatefulWidget {
-  const BoardList({super.key, required this.index,
-  required this.isPossibleReorder,});
+  const BoardList({
+    super.key,
+    required this.index,
+    required this.isPossibleReorder,
+  });
 
   final int index;
   final bool isPossibleReorder;
@@ -363,38 +366,55 @@ class _BoardListState extends ConsumerState<BoardList> {
                                 shrinkWrap: true,
                                 itemBuilder: (ctx, index) {
                                   return Item(
-                                    itemIndex: index,
-                                    listIndex: widget.index,
-                                      isPossibleReorder: widget.isPossibleReorder
-                                  );
+                                      itemIndex: index,
+                                      listIndex: widget.index,
+                                      isPossibleReorder:
+                                          widget.isPossibleReorder);
                                 },
 
                                 // itemCount: prov.items.length,
                               ),
-                              prov
-                                  .board.lists[widget.index].scrollController.hasClients &&
-                                  prov
-                                      .board.lists[widget.index].scrollController.offset > 1000 ? Positioned(
-                                bottom: 50,
-                                child: GestureDetector(
-                                  onTap: () => prov.board.lists[widget.index].scrollController.animateTo(0, duration: Duration(milliseconds: 400), curve: Curves.ease),
-                                  child: Container(
-                                    width: 50,
-                                    height: 50,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(50),
-                                      color: Colors.purple,
-                                    ),
-                                    child: const Icon(
-                                      Icons.keyboard_arrow_up,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
-                              ) : SizedBox(),
+                              prov.board.lists[widget.index].scrollController
+                                          .hasClients &&
+                                      prov.board.lists[widget.index]
+                                              .scrollController.offset >
+                                          1000
+                                  ? Positioned(
+                                      bottom: 50,
+                                      child: GestureDetector(
+                                        onTap: () => prov
+                                            .board
+                                            .lists[widget.index]
+                                            .scrollController
+                                            .animateTo(0,
+                                                duration:
+                                                    Duration(milliseconds: 400),
+                                                curve: Curves.ease),
+                                        child: Container(
+                                          width: 50,
+                                          height: 50,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(50),
+                                            color: Colors.purple,
+                                          ),
+                                          child: const Icon(
+                                            Icons.keyboard_arrow_up,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  : SizedBox(),
                             ],
                           )),
                     ),
+                    prov.board.lists[widget.index].footer == null
+                        ? SizedBox()
+                        : Container(
+                      color: Colors.blue,
+                            padding: EdgeInsets.symmetric(horizontal: 30),
+                            child: Text('sdffdssfdfsda'))
                   ]),
           ),
         ));

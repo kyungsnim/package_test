@@ -29,15 +29,17 @@ class ListItemProvider extends ChangeNotifier {
   }
 
   void resetCardWidget() {
+    log('resetCardWidget');
     var prov = ref.read(ProviderList.boardProvider);
-    prov.board.lists[prov.board.dragItemOfListIndex!]
-        .items[prov.board.dragItemIndex!].bottomPlaceholder = false;
-    prov.board.lists[prov.board.dragItemOfListIndex!]
-        .items[prov.board.dragItemIndex!].containsPlaceholder = false;
-    prov.board.lists[prov.board.dragItemOfListIndex!]
-            .items[prov.board.dragItemIndex!].child =
-        prov.board.lists[prov.board.dragItemOfListIndex!]
-            .items[prov.board.dragItemIndex!].prevChild;
+    debugPrint('prov.board.dragItemOfListIndex!: ${prov.board.dragItemOfListIndex!}');
+      prov.board.lists[prov.board.dragItemOfListIndex!]
+          .items[prov.board.dragItemIndex!].bottomPlaceholder = false;
+      prov.board.lists[prov.board.dragItemOfListIndex!]
+          .items[prov.board.dragItemIndex!].containsPlaceholder = false;
+      prov.board.lists[prov.board.dragItemOfListIndex!]
+          .items[prov.board.dragItemIndex!].child =
+          prov.board.lists[prov.board.dragItemOfListIndex!]
+              .items[prov.board.dragItemIndex!].prevChild;
   }
 
   bool calculateSizePosition({
@@ -74,6 +76,7 @@ class ListItemProvider extends ChangeNotifier {
   }
 
   void addPlaceHolder({required int listIndex, required int itemIndex}) {
+    log('addPlaceHolder');
     var prov = ref.read(ProviderList.boardProvider);
     var item = prov.board.lists[listIndex].items[itemIndex];
     item.containsPlaceholder = true;
@@ -172,6 +175,7 @@ class ListItemProvider extends ChangeNotifier {
   }
 
   void checkForYAxisMovement({required int listIndex, required int itemIndex}) {
+    log('checkForYAxisMovement');
     var prov = ref.read(ProviderList.boardProvider);
     var item = prov.board.lists[listIndex].items[itemIndex];
 
@@ -224,6 +228,9 @@ class ListItemProvider extends ChangeNotifier {
       WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
         //     log("PREVIOUS |${prov.board.dragItemOfListIndex}| LIST= ${prov.board.dragItemIndex}");
 
+        debugPrint('prov.board.dragItemOfListIndex!: ${prov.board.dragItemOfListIndex!}');
+        debugPrint('prov.draggedItemState.listIndex!: ${prov.draggedItemState!.listIndex!}');
+        // debugPrint('prov.board.dragListIndex!: ${prov.board.dragListIndex!}');
         if (!prov.board.lists[prov.board.dragItemOfListIndex!].items[temp!]
             .context!.mounted) return;
 
@@ -241,6 +248,7 @@ class ListItemProvider extends ChangeNotifier {
   }
 
   bool isLastItemDragged({required int listIndex, required int itemIndex}) {
+    // log('isLastItemDragged');
     var prov = ref.read(ProviderList.boardProvider);
     var item = prov.board.lists[listIndex].items[itemIndex];
     if (prov.draggedItemState!.itemIndex == itemIndex &&
@@ -264,6 +272,7 @@ class ListItemProvider extends ChangeNotifier {
         // if (isItemHidden) {
         //   prov.move = "DOWN";
         // }
+
         prov.board.lists[prov.board.dragItemOfListIndex!]
                 .items[prov.board.dragItemIndex!].child =
             prov.board.lists[prov.board.dragItemOfListIndex!]
@@ -329,6 +338,7 @@ class ListItemProvider extends ChangeNotifier {
   }
 
   void checkForXAxisMovement({required int listIndex, required int itemIndex}) {
+    // log('checkForXAxisMovement');
     var prov = ref.read(ProviderList.boardProvider);
     var item = prov.board.lists[listIndex].items[itemIndex];
 
@@ -452,6 +462,7 @@ class ListItemProvider extends ChangeNotifier {
   }
 
   void reorderCard() {
+    log('reorderCard');
     var boardProv = ref.read(ProviderList.boardProvider);
     boardProv.board.lists[boardProv.board.dragItemOfListIndex!]
             .items[boardProv.board.dragItemIndex!].child =
@@ -459,14 +470,21 @@ class ListItemProvider extends ChangeNotifier {
             .items[boardProv.board.dragItemIndex!].prevChild;
 
     debugPrint('boardProv.draggedItemState!.listIndex!: ${boardProv.draggedItemState!.listIndex!}');
-    debugPrint('boardProv.board.dragItemOfListIndex!; ${boardProv.board.dragItemOfListIndex!}');
+    debugPrint('boardProv.board.dragItemOfListIndex!: ${boardProv.board.dragItemOfListIndex!}');
     // dev.log("MOVE=${prov.move}");
     if (boardProv.move == 'LAST') {
       //   dev.log("LAST");
-      debugPrint('LAST!!!');
-      boardProv.board.lists[boardProv.board.dragItemOfListIndex!].items.add(
-          boardProv.board.lists[boardProv.draggedItemState!.listIndex!].items
-              .removeAt(boardProv.draggedItemState!.itemIndex!));
+      if (boardProv.draggedItemState!.listIndex! == 0 && boardProv.board.dragItemOfListIndex! == 1) {
+        debugPrint('LAST!!!');
+        boardProv.board.lists[boardProv.board.dragItemOfListIndex!].items.add(
+            boardProv.board.lists[boardProv.draggedItemState!.listIndex!].items
+                .elementAt(boardProv.draggedItemState!.itemIndex!));
+      } else {
+        debugPrint('LAST!!!');
+        boardProv.board.lists[boardProv.board.dragItemOfListIndex!].items.add(
+            boardProv.board.lists[boardProv.draggedItemState!.listIndex!].items
+                .removeAt(boardProv.draggedItemState!.itemIndex!));
+      }
     } else if (boardProv.move == "REPLACE") {
       debugPrint('REPLACE!!!');
       boardProv.board.lists[boardProv.board.dragItemOfListIndex!].items.clear();

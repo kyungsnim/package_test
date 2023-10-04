@@ -52,6 +52,8 @@ class _KanbanBoardExampleState extends State<KanbanBoardExample> {
             ),
           ),
           isPossibleReorder: true,
+          footer: Text('123132'),
+          footerBackgroundColor: Colors.green,
         ),
       ],
       onItemLongPress: (cardIndex, listIndex) {},

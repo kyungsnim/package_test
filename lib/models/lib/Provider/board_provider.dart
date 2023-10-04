@@ -110,6 +110,7 @@ class BoardProvider extends ChangeNotifier {
           width: data[i].width,
           scrollController: ScrollController(),
           title: data[i].title,
+      footer: data[i].footer,
       isPossibleReorder: i == 0 ? false : true));
     }
   }
